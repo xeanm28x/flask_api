@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models.venda import Venda
 from models.livro import Livro
-from app import db
+from db import db
 import requests
 
 venda_blueprint = Blueprint('venda', __name__)
