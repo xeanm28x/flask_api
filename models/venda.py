@@ -1,4 +1,4 @@
-from app import db
+from db import db
 from models.livro import Livro
 
 class Venda(db.Model):
@@ -24,4 +24,5 @@ class Venda(db.Model):
             'data_criacao': self.data_criacao,
             'data_atualizacao': self.data_atualizacao,
             'livro': self.livro.to_dict() if self.livro else None  # Inclui os dados do livro, se houver
+        }
      
