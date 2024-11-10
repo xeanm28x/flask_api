@@ -3,8 +3,39 @@ from models.venda import Venda
 from models.livro import Livro
 from db import db
 import requests
+import pika
+import json
+from datetime import datetime
 
 venda_blueprint = Blueprint('venda', __name__)
+
+def converter_datetime_para_str(dado):
+    # Função recursiva para converter datetime em string
+    if isinstance(dado, datetime):
+        return dado.isoformat()
+    elif isinstance(dado, dict):
+        return {k: converter_datetime_para_str(v) for k, v in dado.items()}
+    elif isinstance(dado, list):
+        return [converter_datetime_para_str(i) for i in dado]
+    return dado
+
+# Configurar a conexão com o RabbitMQ
+def enviar_mensagem_rabbitmq(dados_venda):
+    conexao = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+    canal = conexao.channel()
+
+    # Declarar a fila para onde a mensagem será enviada
+    canal.queue_declare(queue='fila_qr_code')
+
+    # Publicar a mensagem na fila
+    canal.basic_publish(
+        exchange='',
+        routing_key='fila_qr_code',
+        body=json.dumps(dados_venda)  # Converte o dicionário para JSON
+    )
+
+    print(" [x] Mensagem enviada para a fila")
+    conexao.close()
 
 # Função para gerar QR Code chamando o micro serviço
 def gerar_qr_code(id_livro, valor):
@@ -59,6 +90,12 @@ def create_venda():
         'venda': venda.to_dict(),
         'qr_code_url': qr_code_url
     }
+
+    # Converte datetime em string para o RabbitMQ
+    response_data_serializavel = converter_datetime_para_str(response_data)
+
+    # Enviar mensagem para o RabbitMQ para processamento do QR code
+    enviar_mensagem_rabbitmq(response_data_serializavel)
 
     return jsonify(response_data), 201
 
