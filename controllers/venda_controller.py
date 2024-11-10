@@ -25,42 +25,40 @@ def gerar_qr_code(id_livro, valor):
 def create_venda():
     data = request.json
 
-    # Validação dos campos
-    if 'id_livro' not in data or 'valor' not in data or 'forma_pagamento' not in data:
-        return jsonify(message="Campos 'id_livro', 'valor' e 'forma_pagamento' são obrigatórios."), 400
-    if data['forma_pagamento'] not in ['pix', 'credito']:
-        return jsonify(message="A forma de pagamento deve ser 'pix' ou 'credito'."), 400
+    # Validação dos campos obrigatórios
+    if 'id_livro' not in data or 'quantidade' not in data:
+        return jsonify(message="O livro e a quantidade são obrigatórios."), 400
 
     # Verifica se o livro existe
     livro = Livro.query.get(data['id_livro'])
     if not livro:
         return jsonify(message="Livro não encontrado."), 404
 
-    # Gera o QR Code se a forma de pagamento for "pix"
-    qr_code_url = None
-    if data['forma_pagamento'] == 'pix':
-        qr_code_response = gerar_qr_code(data['id_livro'], data['valor'])
-        if qr_code_response and 'qr_code_base64' in qr_code_response:
-            qr_code_url = qr_code_response['qr_code_base64']
-        else:
-            return jsonify(message="Erro ao gerar QR Code."), 500
-
-    # Cria a venda
+    # Cria a venda com o livro e quantidade especificados
     venda = Venda(
-        id_livro=data['id_livro'],
-        valor=data['valor'],
-        forma_pagamento=data['forma_pagamento']
+        livro_id=data['id_livro'],
+        quantidade=data['quantidade'],
+        livro=livro  # Passa a instância do livro para calcular o valor
     )
+    venda.calcular_valor_total()  # Usa a função do modelo para calcular o valor total
+
+    # Gera o QR Code
+    qr_code_response = gerar_qr_code(data['id_livro'], venda.valor_total)
+    if qr_code_response and 'qr_code_base64' in qr_code_response:
+        qr_code_url = qr_code_response['qr_code_base64']
+    else:
+        return jsonify(message="Erro ao gerar QR Code."), 500
+
+    # Salva a venda no banco de dados
     db.session.add(venda)
     db.session.commit()
 
-    # Retorna a resposta com a venda e o QR Code, se aplicável
+    # Retorna a resposta com a venda e o QR Code
     response_data = {
         'message': 'Venda efetuada com sucesso!',
-        'venda': venda.to_dict()
+        'venda': venda.to_dict(),
+        'qr_code_url': qr_code_url
     }
-    if qr_code_url:
-        response_data['qr_code_url'] = qr_code_url
 
     return jsonify(response_data), 201
 

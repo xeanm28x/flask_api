@@ -10,12 +10,12 @@ def get_livros():
     livros = Livro.query.all()
     return jsonify(livros=[livro.to_dict() for livro in livros]), 200
 
-#  Criar um novo livro
+# Criação de um novo livro com URL de capa
 @livro_blueprint.route('/', methods=['POST'])
 def create_livro():
     data = request.json
-    if 'titulo' not in data:
-        return jsonify(message="Campo 'titulo' é obrigatório."), 400
+    if 'titulo' not in data or 'valor_unitario' not in data:
+        return jsonify(message="Campos 'titulo' e 'valor_unitario' são obrigatórios."), 400
 
     livro = Livro(
         titulo=data['titulo'],
@@ -24,8 +24,11 @@ def create_livro():
         numero_paginas=data.get('numero_paginas'),
         editora=data.get('editora'),
         edicao=data.get('edicao'),
-        ano_publicacao=data.get('ano_publicacao')
+        ano_publicacao=data.get('ano_publicacao'),
+        valor_unitario=data['valor_unitario'],
+        url_capa=data.get('url_capa')  # Adiciona o URL da capa, se presente
     )
+    
     db.session.add(livro)
     db.session.commit()
     return jsonify(livro=livro.to_dict()), 201
@@ -46,7 +49,7 @@ def update_livro(livro_id):
     if not livro:
         return jsonify(message="Livro não encontrado."), 404
 
-    # Campos permitidos
+    # Campos permitidos para atualização, incluindo 'valor_unitario'
     livro.titulo = data.get('titulo', livro.titulo)
     livro.autor = data.get('autor', livro.autor)
     livro.genero = data.get('genero', livro.genero)
@@ -54,6 +57,9 @@ def update_livro(livro_id):
     livro.editora = data.get('editora', livro.editora)
     livro.edicao = data.get('edicao', livro.edicao)
     livro.ano_publicacao = data.get('ano_publicacao', livro.ano_publicacao)
+    livro.valor_unitario = data.get('valor_unitario', livro.valor_unitario)  # Inclui o valor_unitario
+    
+    # Salva as alterações no banco de dados
     db.session.commit()
     return jsonify(livro=livro.to_dict()), 200
 

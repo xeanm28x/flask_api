@@ -2,7 +2,7 @@ from db import db
 
 class Livro(db.Model):
     __tablename__ = 'livro'
-
+    
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(100), nullable=False)
     autor = db.Column(db.String(50), default='Autor Desconhecido')
@@ -11,10 +11,11 @@ class Livro(db.Model):
     editora = db.Column(db.String(50), nullable=True)
     edicao = db.Column(db.String(20), nullable=True)
     ano_publicacao = db.Column(db.Integer, nullable=True)
+    valor_unitario = db.Column(db.Float, nullable=False)
+    url_capa = db.Column(db.String(255), nullable=True)  # Novo campo para a URL da capa
     data_criacao = db.Column(db.DateTime, default=db.func.current_timestamp())
     data_atualizacao = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
-    # Converter para dicionário
     def to_dict(self):
         return {
             'id': self.id,
@@ -25,6 +26,8 @@ class Livro(db.Model):
             'editora': self.editora,
             'edicao': self.edicao,
             'ano_publicacao': self.ano_publicacao,
+            'valor_unitario': self.valor_unitario,
+            'url_capa': self.url_capa,  # Inclui a URL da capa na conversão para dicionário
             'data_criacao': self.data_criacao,
             'data_atualizacao': self.data_atualizacao
         }
