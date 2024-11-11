@@ -3,11 +3,12 @@
 # Use uma imagem base do Python 3.10
 FROM python:3.10
 
-# Instale pacotes do sistema necessários, incluindo python3-apt
+# Instale pacotes do sistema necessários
 RUN apt-get update && apt-get install -y \
-    distro-info \
     python3-apt \
     build-essential \
+    distro-info \
+    libyaml-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Defina o diretório de trabalho no contêiner
@@ -20,6 +21,7 @@ COPY constraints.txt .
 # Atualize o pip antes de instalar as dependências
 RUN pip install --upgrade pip
 
+# Instale Cython como uma dependência temporária para ajudar na compilação
 RUN pip install Cython
 
 # Instale as dependências do Python com as restrições
