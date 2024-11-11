@@ -1,7 +1,7 @@
 # Dockerfile da flask_api
 
-# Use uma imagem base do Python 3.9
-FROM python:3.9
+# Use uma imagem base do Python 3.10
+FROM python:3.10
 
 # Instale pacotes do sistema necessários
 RUN apt-get update && apt-get install -y \
