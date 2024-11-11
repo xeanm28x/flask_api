@@ -55,7 +55,6 @@ pyparsing==2.4.7
 pyphen==0.16.0
 pyrsistent==0.18.1
 pyserial==3.5
-python-apt==2.4.0+ubuntu4
 pytz==2022.1
 PyYAML==5.4.1
 requests==2.25.1
