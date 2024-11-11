@@ -1,9 +1,11 @@
-from flask import Flask, jsonify
+from flask import Flask, render_template
+from flask_cors import CORS
 from db import db
 from controllers.livro_controller import livro_blueprint
 from controllers.venda_controller import venda_blueprint
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flaskapi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -14,7 +16,7 @@ app.register_blueprint(venda_blueprint, url_prefix='/vendas')
 
 @app.route('/')
 def home():
-    return jsonify(message="Hello World! (Teste) =)"), 200
+    return render_template("index.html")
 
 if __name__ == '__main__':
     with app.app_context():
