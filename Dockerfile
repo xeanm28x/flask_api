@@ -3,9 +3,10 @@
 # Use uma imagem base do Python 3.10
 FROM python:3.10
 
-# Instale pacotes do sistema necessários
+# Instale pacotes do sistema necessários, incluindo python3-apt
 RUN apt-get update && apt-get install -y \
     distro-info \
+    python3-apt \
     && rm -rf /var/lib/apt/lists/*
 
 # Defina o diretório de trabalho no contêiner
