@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.qr_code_url) {
-          qrcodeImg.src = data.qr_code_url;
+          qrcodeImg.src = `data:image/png;base64,${data.qr_code_url}`;
           modal.style.display = "flex";
         } else {
           alert("Erro ao gerar QR Code para o pagamento.");
@@ -49,5 +49,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Fechar o modal
   closeModal.addEventListener("click", () => {
     modal.style.display = "none";
+  });
+
+  window.addEventListener("click", (event) => {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
   });
 });

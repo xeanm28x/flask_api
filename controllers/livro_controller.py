@@ -57,7 +57,8 @@ def update_livro(livro_id):
     livro.editora = data.get('editora', livro.editora)
     livro.edicao = data.get('edicao', livro.edicao)
     livro.ano_publicacao = data.get('ano_publicacao', livro.ano_publicacao)
-    livro.valor_unitario = data.get('valor_unitario', livro.valor_unitario)  # Inclui o valor_unitario
+    livro.valor_unitario = data.get('valor_unitario', livro.valor_unitario)
+    livro.url_capa = data.get('url_capa', livro.url_capa)
     
     # Salva as alterações no banco de dados
     db.session.commit()
