@@ -7,6 +7,7 @@ FROM python:3.10
 RUN apt-get update && apt-get install -y \
     distro-info \
     python3-apt \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # Defina o diretório de trabalho no contêiner
@@ -18,6 +19,8 @@ COPY constraints.txt .
 
 # Atualize o pip antes de instalar as dependências
 RUN pip install --upgrade pip
+
+RUN pip install Cython
 
 # Instale as dependências do Python com as restrições
 RUN pip install --no-cache-dir -r requirements.txt -c constraints.txt
