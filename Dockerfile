@@ -21,8 +21,8 @@ COPY constraints.txt .
 # Atualize o pip antes de instalar as dependências
 RUN pip install --upgrade pip
 
-# Instale Cython como uma dependência temporária para ajudar na compilação
-RUN pip install Cython
+# Instale PyYAML como uma versão binária específica antes dos outros pacotes
+RUN pip install --no-cache-dir PyYAML==5.3.1 --only-binary=PyYAML
 
 # Instale as dependências do Python com as restrições
 RUN pip install --no-cache-dir -r requirements.txt -c constraints.txt
