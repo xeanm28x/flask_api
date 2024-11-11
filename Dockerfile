@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     distro-info \
     libyaml-dev \
+    libsystemd-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Defina o diretório de trabalho no contêiner
