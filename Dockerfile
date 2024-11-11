@@ -6,14 +6,15 @@ FROM python:3.9
 # Defina o diretório de trabalho no contêiner
 WORKDIR /app
 
-# Copie os arquivos de requirements para o contêiner
+# Copie os arquivos de requirements e constraints para o contêiner
 COPY requirements.txt .
+COPY constraints.txt .
 
 # Atualize o pip antes de instalar as dependências
 RUN pip install --upgrade pip
 
-# Instale as dependências do Python
-RUN pip install --no-cache-dir -r requirements.txt
+# Instale as dependências do Python com as restrições
+RUN pip install --no-cache-dir -r requirements.txt -c constraints.txt
 
 # Copie o código da aplicação para o contêiner
 COPY . .
