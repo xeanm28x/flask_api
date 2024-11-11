@@ -22,7 +22,7 @@ COPY constraints.txt .
 RUN pip install --upgrade pip
 
 # Instale PyYAML como uma versão binária específica antes dos outros pacotes
-RUN pip install --no-cache-dir PyYAML==5.3.1 --only-binary=PyYAML
+RUN pip install --no-cache-dir PyYAML==6.0 --only-binary=PyYAML
 
 # Instale as dependências do Python com as restrições
 RUN pip install --no-cache-dir -r requirements.txt -c constraints.txt
