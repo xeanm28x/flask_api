@@ -3,6 +3,11 @@
 # Use uma imagem base do Python 3.9
 FROM python:3.9
 
+# Instale pacotes do sistema necessários
+RUN apt-get update && apt-get install -y \
+    distro-info \
+    && rm -rf /var/lib/apt/lists/*
+
 # Defina o diretório de trabalho no contêiner
 WORKDIR /app
 

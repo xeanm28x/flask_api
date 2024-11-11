@@ -16,7 +16,6 @@ cryptography==3.4.8
 cssselect2==0.7.0
 dbus-python==1.2.18
 distro==1.7.0
-distro-info==1.1+ubuntu0.2
 Django==5.1.2
 fonttools==4.54.1
 html5lib==1.1
