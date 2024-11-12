@@ -21,7 +21,7 @@ def converter_datetime_para_str(dado):
 
 # Configurar a conexão com o RabbitMQ
 def enviar_mensagem_rabbitmq(dados_venda):
-    conexao = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+    conexao = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
     canal = conexao.channel()
 
     # Declarar a fila para onde a mensagem será enviada
@@ -41,7 +41,7 @@ def enviar_mensagem_rabbitmq(dados_venda):
 def gerar_qr_code(id_livro, valor):
     try:
         response = requests.post(
-            'http://localhost:5000/gerar_qr_code',  # URL do micro serviço
+            'http://microservico_qr:5000/gerar_qr_code',  # URL do micro serviço
             json={'id_livro': id_livro, 'valor': valor},
             headers={'Content-Type': 'application/json'}
         )
