@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     libdbus-1-dev \
     libgirepository1.0-dev \
     pkg-config \
+    libcairo2-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Defina o diretório de trabalho no contêiner
