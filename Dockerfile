@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libcairo2-dev \
     libcurl4-openssl-dev \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Defina o diretório de trabalho no contêiner
