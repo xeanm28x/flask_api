@@ -17,6 +17,7 @@ cssselect2==0.7.0
 dbus-python==1.2.18
 distro==1.7.0
 Django==5.1.2
+Flask==2.0.1
 fonttools==4.54.1
 html5lib==1.1
 httplib2==0.20.2
