@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     distro-info \
     libyaml-dev \
     libsystemd-dev \
+    ubuntu-pro-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Defina o diretório de trabalho no contêiner
