@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     libgirepository1.0-dev \
     pkg-config \
     libcairo2-dev \
+    libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Defina o diretório de trabalho no contêiner
