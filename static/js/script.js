@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const qrcodeImg = document.getElementById("qrcode-img");
 
   // Fetch lista de livros
-  fetch("http://localhost:5001/livros/")
+  fetch("http://172.21.0.6:5001/livros/")
     .then((response) => response.json())
     .then((data) => {
       data.livros.forEach((livro) => {
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Abrir modal de compra com QR Code
   window.comprarLivro = function (idLivro, valor) {
-    fetch("http://localhost:5001/vendas/", {
+    fetch("http://172.21.0.6:5001/vendas/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("click", (event) => {
     if (event.target == modal) {
-        modal.style.display = "none";
+      modal.style.display = "none";
     }
   });
 });
